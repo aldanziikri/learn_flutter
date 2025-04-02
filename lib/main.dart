@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
       title: const Text("Aldan's App"),
       actions: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0), // Tambahkan padding
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Icon(Icons.settings),
         ),
       ],
@@ -55,15 +55,15 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4, // Tambahkan efek shadow agar lebih menarik
-      margin: const EdgeInsets.all(8), // Tambahkan margin agar ada jarak antar kartu
+      elevation: 4,
+      margin: const EdgeInsets.all(8),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Agar ikon dan teks sejajar di tengah
+          mainAxisAlignment: MainAxisAlignment.center, 
           children: [
-            buttonIcon, // Tidak perlu membungkusnya lagi dengan Icon()
-            const SizedBox(height: 8), // Beri jarak antara ikon dan teks
+            buttonIcon, 
+            const SizedBox(height: 8), 
             Text(
               buttonName,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
