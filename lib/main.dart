@@ -12,6 +12,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "belajarApp",
       home: const HomePage(),
+      routes: <String, WidgetBuilder>{
+        "/home" : (BuildContext context) => HomePage(),
+        "/music" : (BuildContext context) => MusicPage(),
+      } ,
     );
   }
 }
@@ -34,43 +38,46 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.blueAccent,
     ),
 
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          MyButton(buttonIcon: Icon(Icons.home), buttonName: "Home"),
-          MyButton(buttonIcon: Icon(Icons.search), buttonName: "Search"),
-          MyButton(buttonIcon: Icon(Icons.account_balance), buttonName: "Account"),
-        ],
-      ),
+      body: Center(
+        child: Card(
+          child: IconButton(
+          icon: Icon(Icons.music_note),
+          onPressed: (){
+              Navigator.pushNamed(context, "/music");
+            },
+          ),
+        ),
+      )
     );
   }
 }
-
-class MyButton extends StatelessWidget {
-  const MyButton({super.key, required this.buttonIcon, required this.buttonName});
-
-  final Icon buttonIcon;
-  final String buttonName;
+class MusicPage extends StatelessWidget {
+  const MusicPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.all(8),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, 
-          children: [
-            buttonIcon, 
-            const SizedBox(height: 8), 
-            Text(
-              buttonName,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ],
+    return Scaffold(
+    appBar: AppBar(
+      title: const Text("Music"),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Icon(Icons.settings),
         ),
-      ),
+      ],
+      backgroundColor: Colors.blueAccent,
+    ),
+
+      body: Center(
+        child: Card(
+          child: IconButton(
+          icon: Icon(Icons.home),
+          onPressed: (){
+              Navigator.pushNamed(context, "/home");
+            },
+          ),
+        ),
+      )
     );
   }
 }
