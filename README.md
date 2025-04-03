@@ -1,6 +1,6 @@
 # my_app
 
-A new Flutter project.
+Check the commit if you want to see the previous eps.
 
 ## Getting Started
 
