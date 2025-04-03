@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/page/account.dart' ;
+import 'package:my_app/page/home.dart';
+import 'package:my_app/page/likes.dart';
+import 'package:my_app/page/search.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,73 +15,59 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "belajarApp",
-      home: const HomePage(),
-      routes: <String, WidgetBuilder>{
-        "/home" : (BuildContext context) => HomePage(),
-        "/music" : (BuildContext context) => MusicPage(),
-      } ,
+      home: HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
-      leading: const Icon(Icons.menu),
-      title: const Text("Aldan's App"),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Icon(Icons.settings),
-        ),
-      ],
-      backgroundColor: Colors.blueAccent,
-    ),
-
-      body: Center(
-        child: Card(
-          child: IconButton(
-          icon: Icon(Icons.music_note),
-          onPressed: (){
-              Navigator.pushNamed(context, "/music");
-            },
-          ),
-        ),
-      )
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
-class MusicPage extends StatelessWidget {
-  const MusicPage({super.key});
+
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+
+  late TabController controller;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
-      title: const Text("Music"),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Icon(Icons.settings),
-        ),
-      ],
-      backgroundColor: Colors.blueAccent,
-    ),
+  void initState(){
+    controller = TabController(length: 4, vsync: this);
+    super.initState();
+  }
 
-      body: Center(
-        child: Card(
-          child: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: (){
-              Navigator.pushNamed(context, "/home");
-            },
-          ),
-        ),
-      )
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Aldan's App", style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
+        backgroundColor: const Color.fromARGB(255, 47, 120, 180),
+        bottom: TabBar(
+          controller: controller,
+          tabs: [
+            Tab(icon: Icon(Icons.dashboard, color: Color.fromARGB(255, 255, 255, 255))),
+            Tab(icon: Icon(Icons.search, color: Color.fromARGB(255, 255, 255, 255))),
+            Tab(icon: Icon(Icons.favorite, color: Color.fromARGB(255, 255, 255, 255))),
+            Tab(icon: Icon(Icons.account_balance, color: Color.fromARGB(255, 255, 255, 255)))
+          ],
+        )
+      ),
+      body: TabBarView(
+        controller: controller,
+        children: [
+          Home(),
+          Search(),
+          Likes(),
+          Profil()
+        ],
+      ),
     );
   }
 }
