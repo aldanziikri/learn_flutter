@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/page/account.dart' ;
+import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
 import 'package:my_app/page/likes.dart';
 import 'package:my_app/page/search.dart';
@@ -14,60 +14,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "belajarApp",
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
-
-  late TabController controller;
-
-  @override
-  void initState(){
-    controller = TabController(length: 4, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose(){
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Aldan's App", style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
-        backgroundColor: const Color.fromARGB(255, 47, 120, 180),
-        bottom: TabBar(
-          controller: controller,
-          tabs: [
-            Tab(icon: Icon(Icons.dashboard, color: Color.fromARGB(255, 255, 255, 255))),
-            Tab(icon: Icon(Icons.search, color: Color.fromARGB(255, 255, 255, 255))),
-            Tab(icon: Icon(Icons.favorite, color: Color.fromARGB(255, 255, 255, 255))),
-            Tab(icon: Icon(Icons.account_balance, color: Color.fromARGB(255, 255, 255, 255)))
-          ],
-        )
-      ),
-      body: TabBarView(
-        controller: controller,
-        children: [
-          Home(),
-          Search(),
-          Likes(),
-          Profil()
-        ],
-      ),
-    );
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: Icon(Icons.menu),
+            backgroundColor: Color.fromARGB(255, 32, 107, 188),
+            title: Text("Aldan's App"),
+            actions: [Icon(Icons.settings)],
+            bottom: TabBar(tabs: [
+              // Text("Home"),
+              // Text("Search"),
+              // Text("Notification"),
+              // Text("Account")
+              Tab(icon: Icon(Icons.dashboard, color: Color.fromARGB(255, 255, 255, 255))),
+              Tab(icon: Icon(Icons.search, color: Color.fromARGB(255, 255, 255, 255))),
+              Tab(icon: Icon(Icons.favorite, color: Color.fromARGB(255, 255, 255, 255))),
+              Tab(icon: Icon(Icons.account_balance, color: Color.fromARGB(255, 255, 255, 255)))
+            ]),
+          ),
+          body: TabBarView(
+            children: [
+              Home(),
+              Search(),
+              Likes(),
+              Profil()
+            ]
+          )
+        ),
+      );
   }
 }
