@@ -12,8 +12,7 @@ class Likes extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.favorite, size: 40,),
-            Text("Notification", style: TextStyle(fontSize: 30),)
+            Image.asset("assets/luffy.jpg")
           ],
         )
     );
