@@ -34,13 +34,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(5),
       child: ListView.builder(
         itemCount: dataJSON.length,
         itemBuilder: (context, index) {
           return Card(
-            child:(
-                Text(dataJSON[index]["title"])
-              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 5, right: 5, bottom: 20, top: 20),
+                child:  Column(
+                  children: [
+                    Text(dataJSON[index]["title"], textAlign: TextAlign.left, style: TextStyle(fontSize: 16 ,color: const Color.fromARGB(255, 14, 65, 106)),),
+                    Text(dataJSON[index]["body"], textAlign: TextAlign.left)
+                  ],
+                )
+                )
           );
         },
       ),

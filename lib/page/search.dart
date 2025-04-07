@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Search());
-
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
   const Search({super.key});
 
   @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  TextEditingController textController = TextEditingController();
+  String text = "";
+  @override
   Widget build(BuildContext context) {
-      return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.search, size: 40,),
-              Text("Search", style: TextStyle(fontSize: 30),)
-            ],
-          )
-      );
-    }
+    return Column(
+      children: [
+        TextField(
+          controller: textController,
+          decoration: InputDecoration(
+            hintText: "Tulis disini"
+          ),
+          onSubmitted: (str){
+            setState(() {
+              text = "$str\n$text";
+              textController.text = "";
+            });
+          },
+        ),
+        Text(text)
+      ],
+    );
+  }
 }
