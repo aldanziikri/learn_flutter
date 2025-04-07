@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Home(data: List<String>.generate(40, (i) => "data ke ${i+1}",)),
+              Home(),
               Search(),
               Likes(),
               Profil()
