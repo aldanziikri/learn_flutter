@@ -7,14 +7,25 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return ListView(
           children: [
-            Icon(Icons.home, size: 40,),
-            Text("Homepage", style: TextStyle(fontSize: 30),)
+            ListTile(
+              leading: Icon(Icons.alarm),
+              title: Text("Set Alarm"),
+            ),
+            ListTile(
+              leading: Icon(Icons.timer),
+              title: Text("Set Timer"),
+            ),
+            ListTile(
+              leading: Icon(Icons.alarm),
+              title: Text("Set Alarm"),
+            ),
+            ListTile(
+              leading: Icon(Icons.timer),
+              title: Text("Set Timer"),
+            )
           ],
-        )
     );
   }
 }
