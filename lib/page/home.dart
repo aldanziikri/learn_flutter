@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
 
   List dataJSON = [];
   Future getData() async {
-    http.Response hasil = await http.get(
+      final hasil = await http.get(
       Uri.parse("https://jsonplaceholder.typicode.com/posts"), 
       headers:{ "Accept": "application/json"}
       );
