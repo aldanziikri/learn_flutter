@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
@@ -15,12 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage(picture1: AssetImage("assets/luffy.jpg"), picture2: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s")));
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key,required this.picture1, required this.picture2});
+
+  final AssetImage picture1;
+  final NetworkImage picture2;
+
+  void gantiUser(){
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +69,25 @@ class HomePage extends StatelessWidget {
           child: ListView(
             children: [
               UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(backgroundImage: AssetImage("assets/luffy.jpg")),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: AssetImage("assets/luffy.jpg"),
+                ),
                 accountName: Text("Aldan Zikri"),
                 accountEmail: Text("aldanzikri32@gmail.com"),
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/luffy.jpg"), fit: BoxFit.cover),
+                  image: DecorationImage(
+                    image: picture1,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                otherAccountsPictures: [CircleAvatar(backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s"),)],
+                otherAccountsPictures: [
+                  GestureDetector(
+                    onTap: () => gantiUser(),
+                    child: CircleAvatar(
+                      backgroundImage: picture2,
+                    ),
+                  ),
+                ],
               ),
               ListTile(title: Text("Profil"), trailing: Icon(Icons.person)),
               ListTile(title: Text("Setting"), trailing: Icon(Icons.settings)),
