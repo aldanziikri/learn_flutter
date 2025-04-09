@@ -13,18 +13,44 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage(picture1: AssetImage("assets/luffy.jpg"), picture2: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s")));
+    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key,required this.picture1, required this.picture2});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  final AssetImage picture1;
-  final NetworkImage picture2;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  void gantiUser(){
+class _HomePageState extends State<HomePage> {
+  String picture1 = "https://i.pinimg.com/736x/43/ed/52/43ed52cb6262df9666940dae0454359a.jpg";
+  String picture2 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s";
+  String email1 = "aldanzikri32@gmail.com";
+  String email2 = "intansayang@gmail.com";
+  String name1 = "Aldan Zikri";
+  String name2 = "Intan Putri";
+  String currentUser = "";
+  String currentEmail = "";
+  String currentName = "";
+  bool isUser1 = true;
 
+  @override
+  void initState() {
+    currentUser = picture1;
+    currentName = name1;
+    currentEmail = email1;
+    super.initState();
+  }
+
+  void gantiUser() {
+    setState(() {
+      isUser1 = !isUser1;
+      currentUser = isUser1 ? picture1 : picture2;
+      currentEmail = isUser1 ? email1  : email2;
+      currentName = isUser1 ? name1 : name2;
+    });
   }
 
   @override
@@ -68,26 +94,28 @@ class HomePage extends StatelessWidget {
         drawer: Drawer(
           child: ListView(
             children: [
-              UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage("assets/luffy.jpg"),
-                ),
-                accountName: Text("Aldan Zikri"),
-                accountEmail: Text("aldanzikri32@gmail.com"),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: picture1,
-                    fit: BoxFit.cover,
+              GestureDetector(
+                child: UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(currentUser),
                   ),
-                ),
-                otherAccountsPictures: [
-                  GestureDetector(
-                    onTap: () => gantiUser(),
-                    child: CircleAvatar(
-                      backgroundImage: picture2,
+                  accountName: Text(currentName),
+                  accountEmail: Text(currentEmail),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(currentUser),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
+                  otherAccountsPictures: [
+                    GestureDetector(
+                      onTap: () => gantiUser(),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(isUser1 ? picture2 : picture1),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               ListTile(title: Text("Profil"), trailing: Icon(Icons.person)),
               ListTile(title: Text("Setting"), trailing: Icon(Icons.settings)),
