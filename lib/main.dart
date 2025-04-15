@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/page/account_detail.dart';
 import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
 import 'package:my_app/page/likes.dart';
@@ -25,8 +26,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String picture1 = "https://i.pinimg.com/736x/43/ed/52/43ed52cb6262df9666940dae0454359a.jpg";
-  String picture2 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s";
+  String picture1 =
+      "https://i.pinimg.com/736x/43/ed/52/43ed52cb6262df9666940dae0454359a.jpg";
+  String picture2 =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-WGCEPDVGAtfwQ9D07PX9FLgJuX9kwY_WA&s";
   String email1 = "aldanzikri32@gmail.com";
   String email2 = "intansayang@gmail.com";
   String name1 = "Aldan Zikri";
@@ -48,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isUser1 = !isUser1;
       currentUser = isUser1 ? picture1 : picture2;
-      currentEmail = isUser1 ? email1  : email2;
+      currentEmail = isUser1 ? email1 : email2;
       currentName = isUser1 ? name1 : name2;
     });
   }
@@ -96,8 +99,22 @@ class _HomePageState extends State<HomePage> {
             children: [
               GestureDetector(
                 child: UserAccountsDrawerHeader(
-                  currentAccountPicture: CircleAvatar(
-                    backgroundImage: NetworkImage(currentUser),
+                  currentAccountPicture: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => AccountDetail(
+                                name: currentName,
+                                picture: isUser1 ? picture1 : picture2,
+                              ),
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(currentUser),
+                    ),
                   ),
                   accountName: Text(currentName),
                   accountEmail: Text(currentEmail),
@@ -111,13 +128,30 @@ class _HomePageState extends State<HomePage> {
                     GestureDetector(
                       onTap: () => gantiUser(),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(isUser1 ? picture2 : picture1),
+                        backgroundImage: NetworkImage(
+                          isUser1 ? picture2 : picture1,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              ListTile(title: Text("Profil"), trailing: Icon(Icons.person)),
+              ListTile(
+                title: Text("Profil"),
+                trailing: Icon(Icons.person),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => AccountDetail(
+                            name: currentName,
+                            picture: isUser1 ? picture1 : picture2,
+                          ),
+                    ),
+                  );
+                },
+              ),
               ListTile(title: Text("Setting"), trailing: Icon(Icons.settings)),
             ],
           ),
