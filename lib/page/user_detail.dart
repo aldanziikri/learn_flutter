@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AccountDetail extends StatelessWidget {
-  const AccountDetail({super.key, required this.name, required this.picture});
+class UserDetail extends StatelessWidget {
+  const UserDetail({super.key, required this.name, required this.picture});
   final String name;
   final String picture;
 

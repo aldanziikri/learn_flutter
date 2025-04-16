@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/page/account_detail.dart';
+import 'package:my_app/page/user_detail.dart';
 import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
 import 'package:my_app/page/likes.dart';
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder:
-                              (context) => AccountDetail(
+                              (context) => UserDetail(
                                 name: currentName,
                                 picture: isUser1 ? picture1 : picture2,
                               ),
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => AccountDetail(
+                          (context) => UserDetail(
                             name: currentName,
                             picture: isUser1 ? picture1 : picture2,
                           ),
