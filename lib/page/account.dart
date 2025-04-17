@@ -20,12 +20,12 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Center(
-        child: Form(
+      child: Form(
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(11.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
                   decoration: InputDecoration(
@@ -118,30 +118,39 @@ class _ProfilState extends State<Profil> {
                 
       
       
-                SizedBox(height: 30),
+                SizedBox(height: 10),
       
-                DropdownButtonFormField(
-                decoration: InputDecoration(
-                labelText: "Jenis Kelamin",
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        ),
-                items: ["Laki-Laki", "Perempuan"].map((value){
-                  return DropdownMenuItem (
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null || value.isEmpty){
-                    return "Pilih gender anda";
-                  }
-                  return null;
-                } ,
-                onChanged: (value) => setState(() {
-                  gender = value;
-                }),
-                 onSaved: (value) => gender = value,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Jenis Kelamin", style:  TextStyle(fontSize: 15, color: Colors.indigo),),
+                    SizedBox(
+                      width: 200,
+                      child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                      labelText: "Jenis Kelamin",
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                              ),
+                      items: ["Laki-Laki", "Perempuan"].map((value){
+                        return DropdownMenuItem (
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty){
+                          return "Pilih jenis kelamin anda";
+                        }
+                        return null;
+                      } ,
+                      onChanged: (value) => setState(() {
+                        gender = value;
+                      }),
+                       onSaved: (value) => gender = value,
+                      ),
+                    ),
+                  ],
                 ),
       
                 ElevatedButton(
@@ -159,7 +168,6 @@ class _ProfilState extends State<Profil> {
             ),
           ),
         ),
-      ),
     );
   }
 }
