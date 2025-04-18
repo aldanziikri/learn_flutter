@@ -4,6 +4,7 @@ import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
 import 'package:my_app/page/likes.dart';
 import 'package:my_app/page/search.dart';
+import 'package:my_app/post/add_post.dart';
 
 void main() {
   runApp(const MyApp());
@@ -157,6 +158,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: TabBarView(children: [Home(), Search(), Likes(), Profil()]),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AddPost()));
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
