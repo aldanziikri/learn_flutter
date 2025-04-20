@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:my_app/post/edit_post.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -77,12 +78,26 @@ class _HomeState extends State<Home> {
                 "Artikel by: ${post["user"]["full_name"] ?? "No Caption"}",
               ),
               subtitle: Text(post["caption"]),
-              trailing: ElevatedButton(
-                onPressed: (){
-                  deletePost(post['id']);
-                }, 
-                child: Icon(Icons.delete)
-              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,  // Menambahkan ini
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      deletePost(post['id']);
+                    },
+                    child: Icon(Icons.delete),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditPost(post: post)),
+                      );
+                    },
+                    child: Icon(Icons.edit),
+                  ),
+                ],
+              )
             );
           },
         );
