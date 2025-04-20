@@ -28,10 +28,10 @@ class _AddPostState extends State<AddPost> {
     );
     if (!mounted) {return;}
     else if (respon.statusCode == 201){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post berhasil dibuat")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post berhasil dibuat status :${respon.statusCode}")));
     }
     else{
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post gagal dibuat")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post gagal dibuat status :${respon.statusCode}")));
     }
   }
 

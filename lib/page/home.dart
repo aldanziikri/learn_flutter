@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -31,6 +32,27 @@ class _HomeState extends State<Home> {
     }
   }
 
+  void deletePost(int id) async {
+    final respon = await http.delete(
+      Uri.parse("http://192.168.100.235:8000/api/v1/posts/$id"),
+      headers: {
+        "Accept": "application/json",
+        'Authorization': "Bearer 1|LM7OHpYu5pR2Gl5ygem6wGz6nuG50AASLYq2n8zU016d5822"
+      });
+      if (!mounted) return;
+      if (respon.statusCode == 204){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post berhasil dihapus")));
+        await fetchPosts();
+        setState(() {
+        });
+      }
+      else{
+        final output = jsonDecode(respon.body);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(output['message'])));
+      }
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -55,6 +77,12 @@ class _HomeState extends State<Home> {
                 "Artikel by: ${post["user"]["full_name"] ?? "No Caption"}",
               ),
               subtitle: Text(post["caption"]),
+              trailing: ElevatedButton(
+                onPressed: (){
+                  deletePost(post['id']);
+                }, 
+                child: Icon(Icons.delete)
+              ),
             );
           },
         );
