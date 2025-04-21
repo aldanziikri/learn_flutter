@@ -73,12 +73,13 @@ class _HomeState extends State<Home> {
           itemCount: posts.length,
           itemBuilder: (context, index) {
             final post = posts[index];
+            final int userId =  6;
             return ListTile(
               title: Text(
                 "Artikel by: ${post["user"]["full_name"] ?? "No Caption"}",
               ),
               subtitle: Text(post["caption"]),
-              trailing: Row(
+              trailing: post['user']["id"] == userId ? Row(
                 mainAxisSize: MainAxisSize.min,  // Menambahkan ini
                 children: [
                   ElevatedButton(
@@ -97,7 +98,7 @@ class _HomeState extends State<Home> {
                     child: Icon(Icons.edit),
                   ),
                 ],
-              )
+              ) : null
             );
           },
         );
