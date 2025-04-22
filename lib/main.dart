@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/page/auth/splash_page.dart';
 import 'package:my_app/page/user_detail.dart';
 import 'package:my_app/page/account.dart';
 import 'package:my_app/page/home.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashPage());
   }
 }
 
@@ -160,7 +161,7 @@ class _HomePageState extends State<HomePage> {
         body: TabBarView(children: [Home(), Search(), Likes(), Profil()]),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AddPost()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AddPost()));
           },
           child: Icon(Icons.add),
         ),
