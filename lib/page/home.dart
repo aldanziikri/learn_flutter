@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/post/edit_post.dart';
 
 class Home extends StatefulWidget {
@@ -13,15 +14,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  String? token;
+  int? userId;
+
+  @override
+  void initState() {
+    loadUserData();
+    super.initState();
+  }
+
+  void loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString("token");
+      userId = prefs.getInt("userId");
+    });
+  }
+  
   Future<List> fetchPosts() async {
     final response = await http.get(
       Uri.parse("http://192.168.100.235:8000/api/v1/posts"),
       headers: {
         "Accept": "application/json",
         "Authorization":
-            "Bearer 1|LM7OHpYu5pR2Gl5ygem6wGz6nuG50AASLYq2n8zU016d5822",
+            "Bearer $token",
       },
     );
+
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
@@ -38,7 +58,7 @@ class _HomeState extends State<Home> {
       Uri.parse("http://192.168.100.235:8000/api/v1/posts/$id"),
       headers: {
         "Accept": "application/json",
-        'Authorization': "Bearer 1|LM7OHpYu5pR2Gl5ygem6wGz6nuG50AASLYq2n8zU016d5822"
+        'Authorization': "Bearer $token"
       });
       if (!mounted) return;
       if (respon.statusCode == 204){
@@ -73,7 +93,6 @@ class _HomeState extends State<Home> {
           itemCount: posts.length,
           itemBuilder: (context, index) {
             final post = posts[index];
-            final int userId =  6;
             return ListTile(
               title: Text(
                 "Artikel by: ${post["user"]["full_name"] ?? "No Caption"}",

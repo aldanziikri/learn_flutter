@@ -12,22 +12,24 @@ class _SearchState extends State<Search> {
   String text = "";
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: textController,
-          decoration: InputDecoration(
-            hintText: "Tulis disini"
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          TextField(
+            controller: textController,
+            decoration: InputDecoration(
+              hintText: "Tulis disini"
+            ),
+            onSubmitted: (str){
+              setState(() {
+                text = "$str\n$text";
+                textController.text = "";
+              });
+            },
           ),
-          onSubmitted: (str){
-            setState(() {
-              text = "$str\n$text";
-              textController.text = "";
-            });
-          },
-        ),
-        Text(text)
-      ],
+          Text(text)
+        ],
+      ),
     );
   }
 }

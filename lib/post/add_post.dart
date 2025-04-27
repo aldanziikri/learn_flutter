@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -11,6 +12,23 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+
+  String? token;
+  int? userId;
+
+  @override
+  void initState() {
+    loadUserData();
+    super.initState();
+  }
+
+  void loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString("token");
+      userId = prefs.getInt("userId");
+    });
+  }
   final _formKey = GlobalKey<FormState>();
   TextEditingController controller = TextEditingController();
 
@@ -20,7 +38,7 @@ class _AddPostState extends State<AddPost> {
     ),
     headers: {
       "Accept": "application/json",
-      "Authorization": "Bearer 1|LM7OHpYu5pR2Gl5ygem6wGz6nuG50AASLYq2n8zU016d5822",
+      "Authorization": "Bearer $token",
     },
     body: {
       "caption": caption

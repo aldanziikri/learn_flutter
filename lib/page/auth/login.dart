@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import "package:dio/dio.dart";
 import 'package:my_app/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,6 +23,8 @@ class _LoginState extends State<Login> {
     setState(() {
       isLoading = true;
     });
+    try {
+
     final dio = Dio();
     
       final respon = await dio.post("http://192.168.100.235:8000/api/v1/auth/login", data: {
@@ -36,6 +39,11 @@ class _LoginState extends State<Login> {
 
       if(!mounted)return;
       if (respon.statusCode == 200){
+        final user = respon.data;
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString("token", user["token"]);
+        prefs.setInt("userId", user['user']["id"]);
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
       }
       else {
@@ -47,6 +55,16 @@ class _LoginState extends State<Login> {
           isLoading = false;
         });
       }
+    }
+    catch (e){
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Gagal terhubung ke server")),
+      );
+      setState(() {
+        isLoading = false;
+      });
+    }
       
     
 
@@ -56,67 +74,69 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueAccent,
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Silakan Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Silakan Login",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-
-              TextFormField(
-                controller: usernameController,
-                validator: (value) {
-                  if (value == ""){
-                    return "username wajib diisi";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: "username",
-                  border: OutlineInputBorder()
+                SizedBox(height: 30),
+        
+                TextFormField(
+                  controller: usernameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty){
+                      return "username wajib diisi";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: "username",
+                    border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 15),
-              TextFormField(
-                controller: passwordController,
-                validator: (value) {
-                  if (value == ""){
-                    return "password wajib diisi";
-                  }
-                  return null;
-                },
-                obscureText: true,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: "password",
-                  border: OutlineInputBorder()
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty){
+                      return "password wajib diisi";
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: "password",
+                    border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-              isLoading ? CircularProgressIndicator() : ElevatedButton(
-                onPressed: (){
-                  if (_formKey.currentState!.validate()){
-                    _formKey.currentState!.save();
-                    login();
-                  }
-                }, 
-                child: Text("Login")
-              )
-            ],
+                SizedBox(height: 30),
+                isLoading ? CircularProgressIndicator() : ElevatedButton(
+                  onPressed: (){
+                    if (_formKey.currentState!.validate()){
+                      _formKey.currentState!.save();
+                      login();
+                    }
+                  }, 
+                  child: Text("Login")
+                )
+              ],
+            ),
           ),
         ),
       ),

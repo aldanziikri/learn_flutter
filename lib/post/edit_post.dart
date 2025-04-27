@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPost extends StatefulWidget {
   final Map post;
@@ -13,13 +14,25 @@ class EditPost extends StatefulWidget {
 
 class _EditPostState extends State<EditPost> {
   final _formKey = GlobalKey<FormState>();
+  String? token;
+  int? userId;
 
+  
   TextEditingController controller = TextEditingController();
 
     @override
   void initState() {
     super.initState();
+    loadUserData();
     controller.text = widget.post['caption'];
+  }
+
+  void loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString("token");
+      userId = prefs.getInt("userId");
+    });
   }
 
 
@@ -29,12 +42,13 @@ class _EditPostState extends State<EditPost> {
     ),
     headers: {
       "Accept": "application/json",
-      "Authorization": "Bearer 1|LM7OHpYu5pR2Gl5ygem6wGz6nuG50AASLYq2n8zU016d5822",
+      "Authorization": "Bearer $token",
     },
     body: {
       "caption": caption
     }
     );
+    print(id);
 
     if (!mounted) return;
       if (respon.statusCode == 200){
